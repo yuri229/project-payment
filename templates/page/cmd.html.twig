@@ -1,0 +1,47 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <h1>Lorem ipsum dolor sit amet.</h1>
+
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore libero vel quo omnis excepturi fugit consequuntur dolore eos dolor, quae reiciendis beatae aspernatur aperiam. Ratione sit error reprehenderit quisquam eum.</p>
+    <p>Fugiat, dolor dolores! Nulla quaerat facilis itaque dicta ullam ut iusto! Earum laboriosam id, iste dicta quam commodi harum expedita quis sequi suscipit pariatur nam inventore nihil unde illo voluptatem?</p>   
+    
+
+        <table class="table table-striped table-hover ">
+            <thead>
+                <tr>
+                <th>#</th>
+                <th>Societe</th>
+                <th>Numero abonne</th>
+                <th>Numero de police</th>
+                <th>Type de Compteur</th>
+                <th>Numero de Compteur</th>
+                <th>Numero de facture</th>
+                <th>Montant</th>
+                <th>Mail</th>
+                <th>Client</th>
+                <th>Mois de </th>
+                <th>Crée le</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for facture in services %}
+                <tr>
+                    <td>{{ facture.id }}</td>
+                    <td>{{ facture.society }}</td>
+                    <td>{{ facture.numAbn }}</td>
+                    <td>{{ facture.numPolice }}</td>
+                    <td>{{ facture.Compteur }}</td>
+                    <td>{{ facture.numCompteur }}</td>
+                    <td>{{ facture.numFacture }}</td>
+                    <td>{{ facture.montant }}</td>
+                    <td>{{ facture.mail }}</td>
+                    <td>{{ facture.client }}</td>
+                    <td>{{ facture.factPeriod | date('m/Y') }}</td>
+                    <td>{{ facture.createdAt | date('d/m/Y') }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+            </table>
+    
+{% endblock %}

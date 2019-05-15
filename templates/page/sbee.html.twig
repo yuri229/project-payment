@@ -1,0 +1,31 @@
+{% extends 'base.html.twig' %}
+
+{% form_theme forms 'bootstrap_4_layout.html.twig' %}
+
+{% block body %}
+    
+    {# <fieldset>
+        <div class="form-group">
+            <select class="custom-select">
+                <option selected="">Choisissez le type de compteur</option>
+                <option value="1">Ordinaire</option>
+                <option value="2">Prepaye</option>
+                <option value="3">A carte</option>
+            </select>
+        </div>
+    </fieldset> #}
+    <br><hr><br>
+    <h2>Les informations demandees ici sont presentes sur vos factures</h2>
+    <h1>VEUILLEZ BIEN REMPLIR LES CASES SUIVANTES</h1>
+
+    <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. Tempore libero vel quo omnis excepturi fugit consequuntur dolore eos dolor, quae reiciendis beatae aspernatur aperiam. Ratione sit error reprehenderit quisquam eum.</p>
+    <p>Fugiat, dolor dolores! Nulla quaerat facilis itaque dicta ullam ut iusto! Earum laboriosam id, iste dicta quam commodi harum expedita quis sequi suscipit pariatur nam inventore nihil unde illo voluptatem?</p>   
+    
+    {{ form_start(forms) }}
+
+    {{ form_widget(forms) }}
+    <button type="sumbit" class="btn btn-success">Envoyer</button>
+
+    {{ form_end(forms) }}
+
+{% endblock %}
