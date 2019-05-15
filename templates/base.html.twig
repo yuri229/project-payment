@@ -31,8 +31,12 @@
                     </ul>
                     <ul class="nav navbar-nav ml-auto" >    
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
+                        <div class="nav-item">
+                            <p class="nav-link"> Bienvenue, <strong><em>{{ app.user.username }}</em></strong></p>
+                        </div>
+
                         <li class="nav-item">
-                            <a class="nav-link" href="/logout"><img src="/img/logout.png" alt="logout"></a>
+                            <a class="nav-link" href="{{ path('logout') }}"><img src="/img/logout.png" alt="logout"></a>
                         </li>
                         {% endif %}
                         {% if not is_granted('IS_AUTHENTICATED_REMEMBERED') %}
@@ -47,6 +51,7 @@
             </div>
         </div>
     </div>
+    <script src="https://cdn.kkiapay.me/k.js"></script>
     <body>
         
     <div class="container">

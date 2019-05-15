@@ -9,6 +9,7 @@ use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 use Symfony\Component\Security\Csrf\TokenGenerator\TokenGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+
 class SecurityController extends AbstractController
 {
     /**
@@ -92,4 +93,55 @@ class SecurityController extends AbstractController
     {
         return $this->redirectToRoute('home');
     }
+
+    /**
+     * @Route("/callback", name="callback")
+     */
+    public function callback(Request $request)
+    {
+        $transaction_id = $request->input('id');
+        $message = '';
+
+        try {
+            $transaction = FedaPay\Transaction::retrieve($transaction_id);
+            switch($transaction->status) {
+                case 'approved':
+                    $message = 'Transaction approuvée.';
+                break;
+                case 'canceled':
+                    $message = 'Transaction annulée.';
+                break;
+                case 'declined':
+                    $message = 'Transaction déclinée.';
+                break;
+            }
+
+        } catch(\Exception $e) {
+            $message = $e->getMessage();
+        }
+
+    }
+
+       
+    private function fedapayTransactionData()
+    {
+        $customer_data = [
+            'firstname' => 'Junior',
+            'lastname' => 'Gantin',
+            'email' => 'nioperas06@gmail.com',
+            'phone_number' => [
+                'number'  => '66526416',
+                'country' => 'bj'
+            ]
+        ];
+    
+        return [
+            'description' => 'Buy e-book!',
+            'amount' => 500,
+            'currency' => ['iso' => 'XOF'],
+            'callback_url' => url('callback'),
+            'customer' => $customer_data
+        ];
+    }
+
 }

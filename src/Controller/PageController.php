@@ -6,6 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Facture;
+use App\Form\FactureFormType;
 use App\Repository\FactureRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -51,45 +52,21 @@ class PageController extends AbstractController
     public function pay1(Request $request, ObjectManager $manager){
         $facture = new Facture();
 
-        $form = $this->createFormBuilder($facture)
-                    ->add('society', ChoiceType::class, [
-                        'choices' => [
-                            'SBEE' => true,
-                            'SONEB' => false,
-                        ]
-                    ])
-                    ->add('compteur', ChoiceType::class, [
-                        'choices' => [
-                            'ordinaire' => null,
-                            'prepaye' => false,
-                            'a carte' => null,
-                        ]
-                    ])
-                    ->add('numCompteur', TextType::class, [
-                        'attr' => [
-                            'placeholder' => "Numero du compteur"
-                        ]
-                    ])
-                    ->add('numAbn')
-                    ->add('numPolice')
-                    ->add('client')
-                    ->add('numFacture')
-                    ->add('montant')
-                    ->add('mail')
-                    ->add('factPeriod',DateType::class,[
-                        'widget' => 'single_text'
-                    ])
-                    ->getForm();
-        
+        $form = $this->createForm(FactureFormType::class, $facture);
         $form->handleRequest($request);
 
-        if ($form->isSubmitted() && $form->isValid()){
+        if ($form->isSubmitted() && $form->isValid()) {
+            
             $facture->setCreatedAt(new \DateTime());
+            $facture->setClient('username');
 
-            $manager->persist($facture);
-            $manager->flush();
+            $entityManager = $this->getDoctrine()->getManager();
+            $entityManager->persist($facture);
+            $entityManager->flush();
 
+            return $this->redirectToRoute('callback');
         }
+            
         return $this->render('page/sbee.html.twig', [
             'forms' => $form->createView()
         ]);
@@ -135,7 +112,7 @@ class PageController extends AbstractController
             $facture->setCreatedAt(new \DateTime());
 
             $manager->persist($facture);
-            $manager->flush();
+            $manager->flush();	
 
         }
 
