@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="stylesheet" href="/css/custom.min.css"
+        <link rel="stylesheet" href="/css/custom.min.css">
         <link rel="stylesheet" href="/css/bootstrap.min.css">
         <link rel="stylesheet" href="/css/bootstrap.css">
         {% block stylesheets %}{% endblock %}
@@ -11,7 +11,7 @@
     <div class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container">
                 <a class="navbar-brand" href="/">Paiement en ligne</a>
-                <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
                 <div class="collapse navbar-collapse" id="navbarResponsive" style="">
@@ -29,6 +29,7 @@
                             <a class="nav-link" href="{{ path('about') }}">A propos</a>
                         </li>
                     </ul>
+                    
                     <ul class="nav navbar-nav ml-auto" >    
                         {% if is_granted('IS_AUTHENTICATED_REMEMBERED') %}
                         <div class="nav-item">
@@ -51,7 +52,6 @@
             </div>
         </div>
     </div>
-    <script src="https://cdn.kkiapay.me/k.js"></script>
     <body>
         
     <div class="container">
@@ -72,7 +72,6 @@
                     </ul>
                     
                     <p>Made by <a href="https://thomaspark.co">Thomas Park</a>.</p>
-                    <p>Code released under the <a href="https://github.com/thomaspark/bootswatch/blob/master/LICENSE">MIT License</a>.</p>
                     <p>NB: Ce service n'est pas un partenariat avec les structures emmetrices de vos factures</p>
                     <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="https://fontawesome.com/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</p>
                     <p>&copy;Copyright 2018 - {{ 'now'|date("Y") }}</p>
@@ -80,6 +79,13 @@
             </div>
         </footer>
         
-        {% block javascripts %}{% endblock %}
+        {% block javascripts %}
+        <script type="text/javascript">
+            document.querySelector(".navbar-toggler").addEventListener("click", function(e){
+                document.querySelector("#navbarResponsive").classList.toggle("show");
+            });
+        </script>
+        <script type="text/javascript" src="https://cdn.kkiapay.me/k.js"></script>
+        {% endblock %}
     </body>
 </html>

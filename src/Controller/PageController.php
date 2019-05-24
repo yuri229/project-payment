@@ -6,7 +6,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\Facture;
-use App\Form\FactureFormType;
+use App\Entity\User;
 use App\Repository\FactureRepository;
 use Doctrine\Common\Persistence\ObjectManager;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
@@ -52,19 +52,52 @@ class PageController extends AbstractController
     public function pay1(Request $request, ObjectManager $manager){
         $facture = new Facture();
 
-        $form = $this->createForm(FactureFormType::class, $facture);
+        $form = $this->createFormBuilder($facture)
+                    ->add('society', ChoiceType::class, [
+                        'choices' => [
+                            'SBEE' => true,
+                            'SONEB' => false,
+                        ]
+                    ])
+                    ->add('compteur', ChoiceType::class, [
+                        'choices' => [
+                            'ordinaire' => null,
+                            'prepaye' => false,
+                            'a carte' => null,
+                        ]
+                    ])
+                    ->add('numCompteur', TextType::class, [
+                        'attr' => [
+                            'placeholder' => "Numero du compteur"
+                        ]
+                    ])
+                    ->add('numAbn',[
+                        'attr' => [
+                            'placeholder' => "Numero d'Abonne"]
+                        ])
+                    ->add('numPolice',[
+                        'attr' => [
+                            'placeholder' => "Numero de police"]
+                        ])
+                    ->add('numFacture',[
+                        'attr' => [
+                            'placeholder' => "Numero de la facture"]
+                        ])
+                    ->add('montant')
+                    ->add('mail')
+                    ->add('factPeriod',DateType::class,[
+                        'widget' => 'single_text'
+                    ])
+                    ->getform();
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            
             $facture->setCreatedAt(new \DateTime());
             $facture->setClient('username');
 
-            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($facture);
             $entityManager->flush();
 
-            return $this->redirectToRoute('callback');
         }
             
         return $this->render('page/sbee.html.twig', [
@@ -97,8 +130,8 @@ class PageController extends AbstractController
                         ])
                     ->add('numAbn')
                     ->add('numPolice')
-                    ->add('client')
                     ->add('numFacture')
+                    ->add('client')
                     ->add('montant')
                     ->add('mail')
                     ->add('factPeriod',DateType::class,[
@@ -144,4 +177,5 @@ class PageController extends AbstractController
     {
         return $this->render('page/ccm.html.twig');
     }
+    
 }
