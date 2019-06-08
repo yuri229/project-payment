@@ -19,11 +19,6 @@ class Facture
     /**
      * @ORM\Column(type="string", length=16)
      */
-    private $numAbn;
-
-    /**
-     * @ORM\Column(type="string", length=16)
-     */
     private $numPolice;
 
     /**
@@ -32,24 +27,9 @@ class Facture
     private $compteur;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $numCompteur;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $numFacture;
-
-    /**
      * @ORM\Column(type="float")
      */
     private $montant;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $client;
 
     /**
      * @ORM\Column(type="datetime")
@@ -57,36 +37,14 @@ class Facture
     private $createdAt;
 
     /**
-     * @ORM\Column(type="datetime")
+     * @ORM\ManyToOne(targetEntity="App\Entity\User", inversedBy="facture")
      */
-    private $factPeriod;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $society;
-
-    /**
-     * @ORM\Column(type="string", length=255)
-     */
-    private $mail;
+    private $user;
 
     public function getId(): ?int
     {
         return $this->id;
-    }
-
-    public function getNumAbn(): ?string
-    {
-        return $this->numAbn;
-    }
-
-    public function setNumAbn(string $numAbn): self
-    {
-        $this->numAbn = $numAbn;
-
-        return $this;
-    }
+    } 
 
     public function getNumPolice(): ?string
     {
@@ -112,30 +70,6 @@ class Facture
         return $this;
     }
 
-    public function getNumCompteur(): ?string
-    {
-        return $this->numCompteur;
-    }
-
-    public function setNumCompteur(string $numCompteur): self
-    {
-        $this->numCompteur = $numCompteur;
-
-        return $this;
-    }
-
-    public function getNumFacture(): ?string
-    {
-        return $this->numFacture;
-    }
-
-    public function setNumFacture(string $numFacture): self
-    {
-        $this->numFacture = $numFacture;
-
-        return $this;
-    }
-
     public function getMontant(): ?float
     {
         return $this->montant;
@@ -144,18 +78,6 @@ class Facture
     public function setMontant(float $montant): self
     {
         $this->montant = $montant;
-
-        return $this;
-    }
-
-    public function getClient(): ?string
-    {
-        return $this->client;
-    }
-
-    public function setClient(string $client): self
-    {
-        $this->client = $client;
 
         return $this;
     }
@@ -172,39 +94,16 @@ class Facture
         return $this;
     }
 
-    public function getFactPeriod(): ?\DateTimeInterface
+    public function getUser(): ?User
     {
-        return $this->factPeriod;
+        return $this->user;
     }
 
-    public function setFactPeriod(\DateTimeInterface $factPeriod): self
+    public function setUser(?User $user): self
     {
-        $this->factPeriod = $factPeriod;
+        $this->user = $user;
 
         return $this;
     }
 
-    public function getSociety(): ?string
-    {
-        return $this->society;
-    }
-
-    public function setSociety(string $society): self
-    {
-        $this->society = $society;
-
-        return $this;
-    }
-
-    public function getMail(): ?string
-    {
-        return $this->mail;
-    }
-
-    public function setMail(string $mail): self
-    {
-        $this->mail = $mail;
-
-        return $this;
-    }
 }

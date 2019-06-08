@@ -51,58 +51,15 @@ class PageController extends AbstractController
      */
     public function pay1(Request $request, ObjectManager $manager){
         $facture = new Facture();
-
-        $form = $this->createFormBuilder($facture)
-                    ->add('society', ChoiceType::class, [
-                        'choices' => [
-                            'SBEE' => true,
-                            'SONEB' => false,
-                        ]
-                    ])
-                    ->add('compteur', ChoiceType::class, [
-                        'choices' => [
-                            'ordinaire' => null,
-                            'prepaye' => false,
-                            'a carte' => null,
-                        ]
-                    ])
-                    ->add('numCompteur', TextType::class, [
-                        'attr' => [
-                            'placeholder' => "Numero du compteur"
-                        ]
-                    ])
-                    ->add('numAbn',[
-                        'attr' => [
-                            'placeholder' => "Numero d'Abonne"]
-                        ])
-                    ->add('numPolice',[
-                        'attr' => [
-                            'placeholder' => "Numero de police"]
-                        ])
-                    ->add('numFacture',[
-                        'attr' => [
-                            'placeholder' => "Numero de la facture"]
-                        ])
-                    ->add('montant')
-                    ->add('mail')
-                    ->add('factPeriod',DateType::class,[
-                        'widget' => 'single_text'
-                    ])
-                    ->getform();
-        $form->handleRequest($request);
-
-        if ($form->isSubmitted() && $form->isValid()) {
-            $facture->setCreatedAt(new \DateTime());
-            $facture->setClient('username');
-
+        if ($request->isMethod('POST')){
+            $entityManager = $this->getDoctrine()->getManager();
             $entityManager->persist($facture);
             $entityManager->flush();
-
+            $this->addFlash('notice','facture ajoutee');
+            return $this->redirectToRoute('cmd');
+        }else{
+            return $this->render('page/sbee.html.twig');
         }
-            
-        return $this->render('page/sbee.html.twig', [
-            'forms' => $form->createView()
-        ]);
     }
 
     /**
@@ -112,31 +69,13 @@ class PageController extends AbstractController
         $facture = new Facture();
 
         $form = $this->createFormBuilder($facture)
-                    ->add('society', ChoiceType::class, [
-                        'choices' => [
-                            'SONEB' => true,
-                            'SBEE' =>false,
-                        ]
-                    ])
-                    ->add('numCompteur', TextType::class, [
-                        'attr' => [
-                            'placeholder' => "Numero du compteur"
-                        ]
-                    ])
                     ->add('compteur', ChoiceType::class, [
                         'choices' => [
                             'ordinaire' => true,
                             ]
                         ])
-                    ->add('numAbn')
                     ->add('numPolice')
-                    ->add('numFacture')
-                    ->add('client')
                     ->add('montant')
-                    ->add('mail')
-                    ->add('factPeriod',DateType::class,[
-                        'widget' => 'single_text'
-                    ])
                     ->getform();
 
         $form->handleRequest($request);

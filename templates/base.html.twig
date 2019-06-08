@@ -23,9 +23,6 @@
                             <a class="nav-link" href="{{ path('cmd') }}">Gerer une commande</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link" href="{{ path('ccm') }}">CCM?</a>
-                        </li>
-                        <li class="nav-item">
                             <a class="nav-link" href="{{ path('about') }}">A propos</a>
                         </li>
                     </ul>
@@ -35,7 +32,6 @@
                         <div class="nav-item">
                             <p class="nav-link"> Bienvenue, <strong><em>{{ app.user.username }}</em></strong></p>
                         </div>
-
                         <li class="nav-item">
                             <a class="nav-link" href="{{ path('logout') }}"><img src="/img/logout.png" alt="logout"></a>
                         </li>
@@ -58,24 +54,16 @@
         {% block body %}{% endblock %}
     </div>    
         <footer id="footer">
+        <div class="container">
             <div class="row">
                 <div class="col-lg-12">
 
                     <ul class="list-unstyled">
                     <li class="float-lg-right"><a href="#top">Back to top</a></li>
-                    <li><a href="https://blog.bootswatch.com" onclick="pageTracker._link(this.href); return false;">Blog</a></li>
-                    <li><a href="https://blog.bootswatch.com/rss/">RSS</a></li>
-                    <li><a href="https://twitter.com/bootswatch">Twitter</a></li>
-                    <li><a href="https://github.com/thomaspark/bootswatch/">GitHub</a></li>
-                    <li><a href="#">API</a></li>
-                    <li><a href="#">Donate</a></li>
                     </ul>
-                    
-                    <p>Made by <a href="https://thomaspark.co">Thomas Park</a>.</p>
-                    <p>NB: Ce service n'est pas un partenariat avec les structures emmetrices de vos factures</p>
-                    <p>Based on <a href="https://getbootstrap.com" rel="nofollow">Bootstrap</a>. Icons from <a href="https://fontawesome.com/" rel="nofollow">Font Awesome</a>. Web fonts from <a href="https://fonts.google.com/" rel="nofollow">Google</a>.</p>
-                    <p>&copy;Copyright 2018 - {{ 'now'|date("Y") }}</p>
+                    <p>Contactez-nous | &copy;Copyright 2018 - {{ 'now'|date("Y") }} | <a href="{{ path('ccm') }}">CCM?</a></p>
                 </div>
+            </div>
             </div>
         </footer>
         

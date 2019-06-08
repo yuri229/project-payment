@@ -11,16 +11,10 @@
             <thead>
                 <tr>
                 <th>#</th>
-                <th>Societe</th>
-                <th>Numero abonne</th>
-                <th>Numero de police</th>
+                <th>Username</th>
+                <th>Adresse mail</th>
                 <th>Type de Compteur</th>
-                <th>Numero de Compteur</th>
-                <th>Numero de facture</th>
-                <th>Montant</th>
-                <th>Mail</th>
-                <th>Client</th>
-                <th>Mois de </th>
+                <th>Numero de police</th>
                 <th>Crée le</th>
                 <th>pay</th>
                 </tr>
@@ -28,18 +22,12 @@
             <tbody>
                 {% for facture in services %}
                 <tr>
-                    <td>{{ facture.id }}</td>
-                    <td>{{ facture.society }}</td>
-                    <td>{{ facture.numAbn }}</td>
-                    <td>{{ facture.numPolice }}</td>
-                    <td>{{ facture.Compteur }}</td>
-                    <td>{{ facture.numCompteur }}</td>
-                    <td>{{ facture.numFacture }}</td>
-                    <td>{{ facture.montant }}</td>
-                    <td>{{ facture.mail }}</td>
-                    <td>{{ facture.client }}</td>
-                    <td>{{ facture.factPeriod | date('m/Y') }}</td>
-                    <td>{{ facture.createdAt | date('d/m/Y') }}</td>
+                    <td>{{ facture.user.username }}</td>
+                    {# <td>{{ user.facture.username }}
+                    <td>{{ user.facture.email }}</td>
+                    <td>{{ user.facture.compteur }}</td>
+                    <td>{{ user.facture.numPolice }}</td>
+                    <td>{{ user.facture.createdAt | date('d/m/Y') }}</td> #}
                     <td><kkiapay-widget amount="<300>" 
                                         key="c1faa8c074c511e99b87b57029db1662"
                                         url="<url-vers-votre-logo>"

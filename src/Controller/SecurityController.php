@@ -52,7 +52,7 @@ class SecurityController extends AbstractController
             }
             $url = $this->generateUrl('app_reset_password', array('token' => $token), UrlGeneratorInterface::ABSOLUTE_URL);
             $message = (new \Swift_Message('Forgot Password'))
-                ->setFrom('damalaelmohamed@gmail.com')
+                ->setFrom('blackyouv@gmail.com')
                 ->setTo($user->getEmail())
                 ->setBody(
                     "blablabla voici le lien pour renitialiser votre mot de passe : " . $url,
@@ -120,28 +120,6 @@ class SecurityController extends AbstractController
             $message = $e->getMessage();
         }
 
-    }
-
-       
-    private function fedapayTransactionData()
-    {
-        $customer_data = [
-            'firstname' => 'Junior',
-            'lastname' => 'Gantin',
-            'email' => 'nioperas06@gmail.com',
-            'phone_number' => [
-                'number'  => '66526416',
-                'country' => 'bj'
-            ]
-        ];
-    
-        return [
-            'description' => 'Buy e-book!',
-            'amount' => 500,
-            'currency' => ['iso' => 'XOF'],
-            'callback_url' => url('callback'),
-            'customer' => $customer_data
-        ];
     }
 
 }

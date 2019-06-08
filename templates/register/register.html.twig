@@ -6,6 +6,10 @@
     <h1>Register</h1>
 
     {{ form_start(registrationForm) }}
+        {{ form_row(registrationForm.username) }}
+        {{ form_row(registrationForm.email) }}
+        {{ form_row(registrationForm.numero_police) }}
+        {{ form_row(registrationForm.compteur) }}
         {{ form_widget(registrationForm) }}
 
         <button class="btn btn-primary">Enregistrer</button>

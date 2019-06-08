@@ -2,6 +2,8 @@
 
 namespace App\Entity;
 
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
@@ -9,6 +11,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * @ORM\Entity(repositoryClass="App\Repository\UserRepository")
+ * @UniqueEntity(
+ * fields= {"email"},
+ * message= "L'email que vous avez entrer est deja utilise"
+ * )
  */
 class User implements UserInterface
 {
@@ -32,6 +38,7 @@ class User implements UserInterface
     /**
      * @var string The hashed password
      * @ORM\Column(type="string")
+     * @Assert\Length(min="8", minMessage="Votre mot de passe doit etre de minimum de 8 caracteres")
      */
     private $password;
 
@@ -51,6 +58,26 @@ class User implements UserInterface
      * @ORM\Column(type="string", length=255, nullable=true)
      */
     protected $resetToken;
+
+    /**
+     * @ORM\Column(type="string", length=16, nullable=true)
+     */
+    private $numero_police;
+
+    /**
+     * @ORM\Column(type="string", length=255, nullable=true)
+     */
+    private $compteur;
+
+    /**
+     * @ORM\OneToMany(targetEntity="App\Entity\Facture", mappedBy="user")
+     */
+    private $factures;
+
+    public function __construct()
+    {
+        $this->facture = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -118,7 +145,7 @@ class User implements UserInterface
      */
     public function getSalt()
     {
-        // not needed when using the "bcrypt" algorithm in security.yaml
+        // not needed when using the "argon2i" algorithm in security.yaml
     }
 
     /**
@@ -154,6 +181,61 @@ class User implements UserInterface
     public function setUsername(string $username): self
     {
         $this->username = $username;
+
+        return $this;
+    }
+
+    public function getNumeroPolice(): ?string
+    {
+        return $this->numero_police;
+    }
+
+    public function setNumeroPolice(?string $numero_police): self
+    {
+        $this->numero_police = $numero_police;
+
+        return $this;
+    }
+
+    public function getCompteur(): ?string
+    {
+        return $this->compteur;
+    }
+
+    public function setCompteur(?string $compteur): self
+    {
+        $this->compteur = $compteur;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection|facture[]
+     */
+    public function getFactures(): Collection
+    {
+        return $this->factures;
+    }
+
+    public function addFacture(facture $facture): self
+    {
+        if (!$this->factures->contains($facture)) {
+            $this->factures[] = $facture;
+            $facture->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeFacture(facture $facture): self
+    {
+        if ($this->factures->contains($facture)) {
+            $this->factures->removeElement($facture);
+            // set the owning side to null (unless already changed)
+            if ($facture->getUser() === $this) {
+                $facture->setUser(null);
+            }
+        }
 
         return $this;
     }
